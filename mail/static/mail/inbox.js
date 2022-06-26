@@ -61,7 +61,13 @@ function load_mailbox(mailbox) {
       // ... do something else with emails ...  
       emails.forEach(email => {
         const email_div = document.createElement('div');
-        email_div.innerHTML = `<br> ${email.id} <br> From: <br> ${email.sender} <br> Subject: ${email.subject} <br> TimeStamp: ${email.timestamp} <br>Read: ${email.read} <br><br>`
+        email_div.innerHTML = `<a href= {% url 'email' email.id %}>
+                              <br> ${email.id} <br> 
+                              From: ${email.sender} <br> 
+                              Subject: ${email.subject} <br> 
+                              TimeStamp: ${email.timestamp} <br>
+                              Read: ${email.read} <br><br>
+                              </a>`
 
         if(`${email.read}` === false){email_div.style.backgroundColor = "white";}else{email_div.style.backgroundColor = "grey";}
 
@@ -79,16 +85,17 @@ function load_mailbox(mailbox) {
                 // show email and hide other views
                 document.querySelector("#emails-view").style.display = "none";
                 document.querySelector("#compose-view").style.display = "none";  
-                document.querySelector("#email-view").style.display = "block";
+                document.querySelector("#single-email-view").style.display = "block";
           
                 // display email
-                const view = document.querySelector("#email-view");
+                const view = document.querySelector("#single-email-view");
           
                 view.innerHTML =
                   `<ul>
+                    
                      <li> From: ${email.sender} </li>
                      <li> To: ${email.recipients} </li>
-                     <li> Subject: ${email.subject} </br> 
+                     <li> Subject: ${email.subject} </li> 
                      <li> TimeStamp: ${email.timestamp} </li>
                      <li> Body: ${email.body} <br><br>
                   
@@ -99,6 +106,7 @@ function load_mailbox(mailbox) {
               }
       });
 })
+              return false;
 }      
 
 
