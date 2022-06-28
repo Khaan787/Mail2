@@ -1,0 +1,8 @@
+{% extends "mail/layout.html" %}
+{% load static %}
+
+{% block body %}
+    {{email.sender}}
+    {{email.body}}
+{% endblock %}
+

@@ -21,6 +21,12 @@ def index(request):
         return HttpResponseRedirect(reverse("login"))
 
 
+def single_email(request, email_id):
+    return render(request, "mail/single_email.html", {
+        "email": Email.objects.get(pk=email_id)
+    })
+
+
 @csrf_exempt
 @login_required
 def compose(request):
@@ -177,3 +183,5 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "mail/register.html")
+
+

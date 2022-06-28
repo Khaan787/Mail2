@@ -61,7 +61,7 @@ function load_mailbox(mailbox) {
       // ... do something else with emails ...  
       emails.forEach(email => {
         const email_div = document.createElement('div');
-        email_div.innerHTML = `<a href= {% url 'email' email.id %}>
+        email_div.innerHTML = `<a href="{%url 'single_email' email.id%}">
                               <br> ${email.id} <br> 
                               From: ${email.sender} <br> 
                               Subject: ${email.subject} <br> 
@@ -85,10 +85,10 @@ function load_mailbox(mailbox) {
                 // show email and hide other views
                 document.querySelector("#emails-view").style.display = "none";
                 document.querySelector("#compose-view").style.display = "none";  
-                document.querySelector("#single-email-view").style.display = "block";
+                document.querySelector("#email-view").style.display = "block";
           
                 // display email
-                const view = document.querySelector("#single-email-view");
+                const view = document.querySelector("#email-view");
           
                 view.innerHTML =
                   `<ul>
