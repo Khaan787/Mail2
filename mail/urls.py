@@ -7,7 +7,7 @@ urlpatterns = [
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
-    path("email/<int:email_id>", views.single_email, name="single_email"),
+
 
     # API Routes
     path("emails", views.compose, name="compose"),

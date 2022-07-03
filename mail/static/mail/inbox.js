@@ -60,8 +60,8 @@ function load_mailbox(mailbox) {
       console.log(emails);
       // ... do something else with emails ...  
       emails.forEach(email => {
-        const email_div = document.createElement('div');
-        email_div.innerHTML = `<a href="{%url 'single_email' email.id%}">
+        const single_email_div = document.createElement('div');
+        single_email_div.innerHTML = `<a href="/emails/${email.id}/">
                               <br> ${email.id} <br> 
                               From: ${email.sender} <br> 
                               Subject: ${email.subject} <br> 
@@ -69,15 +69,19 @@ function load_mailbox(mailbox) {
                               Read: ${email.read} <br><br>
                               </a>`
 
-        if(`${email.read}` === false){email_div.style.backgroundColor = "white";}else{email_div.style.backgroundColor = "grey";}
+        if(`${email.read}` === false)
+        {single_email_div.style.backgroundColor = "white";}
+        else
+        {single_email_div.style.backgroundColor = "lightgrey";}
 
         const emails_div = document.querySelector('#emails-view');
-        emails_div.append(email_div);
+        emails_div.append(single_email_div);
         
         // When a user clicks on an email, the user should be taken to a view where they see the content of that email
-        var el = document.querySelector("email_div");
-        if(el){
-          el.addEventListener('click', () => { 
+         
+          
+        document.querySelector("single_email_div").addEventListener('click', function (e) { 
+            e.preventDefault();
             fetch(`/emails/${id}`)
             .then(response => response.json())
             .then(email => {
@@ -103,15 +107,8 @@ function load_mailbox(mailbox) {
             
             });      
             })
-              }
+              
       });
 })
               return false;
-}      
-
-
-
-function load_email(id){
- 
-
-}
+  }     
