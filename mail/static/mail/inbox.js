@@ -51,7 +51,7 @@ function load_mailbox(mailbox) {
   document.querySelector("#emails-view").innerHTML = `<h3>${
     mailbox.charAt(0).toUpperCase() + mailbox.slice(1)
   }</h3>`;
-
+  
   // Show the emails of that particular mailbox 
   fetch(`/emails/${mailbox}`)
   .then(response => response.json())
@@ -59,56 +59,45 @@ function load_mailbox(mailbox) {
       // Print emails
       console.log(emails);
       // ... do something else with emails ...  
+      
       emails.forEach(email => {
+        console.log(email);
+        const emails_div = document.querySelector("#emails-view");
         const single_email_div = document.createElement('div');
-        single_email_div.innerHTML = `<a href="/emails/${email.id}/">
+        const contents = `<a href="emails/${email.id}"
                               <br> ${email.id} <br> 
                               From: ${email.sender} <br> 
                               Subject: ${email.subject} <br> 
                               TimeStamp: ${email.timestamp} <br>
                               Read: ${email.read} <br><br>
-                              </a>`
-
+        </a>      
+        `;
         if(`${email.read}` === false)
         {single_email_div.style.backgroundColor = "white";}
         else
         {single_email_div.style.backgroundColor = "lightgrey";}
-
-        const emails_div = document.querySelector('#emails-view');
-        emails_div.append(single_email_div);
         
-        // When a user clicks on an email, the user should be taken to a view where they see the content of that email
-         
-          
-        document.querySelector("single_email_div").addEventListener('click', function (e) { 
-            e.preventDefault();
-            fetch(`/emails/${id}`)
-            .then(response => response.json())
-            .then(email => {
-          
-                // show email and hide other views
-                document.querySelector("#emails-view").style.display = "none";
-                document.querySelector("#compose-view").style.display = "none";  
-                document.querySelector("#email-view").style.display = "block";
-          
-                // display email
-                const view = document.querySelector("#email-view");
-          
-                view.innerHTML =
-                  `<ul>
-                    
-                     <li> From: ${email.sender} </li>
-                     <li> To: ${email.recipients} </li>
-                     <li> Subject: ${email.subject} </li> 
-                     <li> TimeStamp: ${email.timestamp} </li>
-                     <li> Body: ${email.body} <br><br>
-                  
-                  </ul>`
-            
-            });      
-            })
+        
+        single_email_div.addEventListener("click", () => read_email(item.id));
+        single_email_div.innerHTML = contents;
+        emails_div.append(single_email_div);        
+        
+                
               
       });
 })
               return false;
-  }     
+  }
+
+// When a user clicks on an email, the user should be taken to a view where they see the content of that email
+
+
+  function compose_email(emailId) {
+    // SIRAJ FOR YOU TO COMPLETE    
+    fetch(`/emails/${emailId}`)
+    // Put response into json form
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    })
+  }

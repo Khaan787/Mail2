@@ -1,4 +1,5 @@
 import json
+from time import process_time_ns
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
@@ -19,7 +20,6 @@ def index(request):
     # Everyone else is prompted to sign in
     else:
         return HttpResponseRedirect(reverse("login"))
-
 
 
 @csrf_exempt
@@ -100,7 +100,6 @@ def mailbox(request, mailbox):
 @csrf_exempt
 @login_required
 def email(request, email_id):
-
     # Query for requested email
     try:
         email = Email.objects.get(user=request.user, pk=email_id)
@@ -109,8 +108,9 @@ def email(request, email_id):
 
     # Return email contents
     if request.method == "GET":
+        print(JsonResponse(email.serialize()))
         return JsonResponse(email.serialize())
-
+        
     # Update whether email is read or should be archived
     elif request.method == "PUT":
         data = json.loads(request.body)
