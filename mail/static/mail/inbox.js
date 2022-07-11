@@ -57,32 +57,34 @@ function load_mailbox(mailbox) {
   .then(response => response.json())
   .then(emails => {
       // Print emails
+      console.log("all-emails");
       console.log(emails);
       // ... do something else with emails ...  
       
       emails.forEach(email => {
+        console.log("single-email");
         console.log(email);
+        const Id = `${email.id}`;
         const emails_div = document.querySelector("#emails-view");
         const single_email_div = document.createElement('div');
+        
+        
         const contents = `<a href="emails/${email.id}"
                               <br> ${email.id} <br> 
                               From: ${email.sender} <br> 
                               Subject: ${email.subject} <br> 
                               TimeStamp: ${email.timestamp} <br>
                               Read: ${email.read} <br><br>
-        </a>      
-        `;
+                          </a>`;
         if(`${email.read}` === false)
         {single_email_div.style.backgroundColor = "white";}
         else
         {single_email_div.style.backgroundColor = "lightgrey";}
         
         
-        single_email_div.addEventListener("click", () => read_email(item.id));
+        single_email_div.addEventListener("click", () => read_email(Id));
         single_email_div.innerHTML = contents;
-        emails_div.append(single_email_div);        
-        
-                
+        emails_div.append(single_email_div);                        
               
       });
 })
@@ -91,13 +93,27 @@ function load_mailbox(mailbox) {
 
 // When a user clicks on an email, the user should be taken to a view where they see the content of that email
 
+function read_email(emailId) {
+  // SIRAJ FOR YOU TO COMPLETE    
+  fetch(`/emails/${emailId}`)
+  // Put response into json form
+  .then(response => response.json())
+  .then(email => {
+      console.log("open-email");
+     // show email and hide other views
+     document.querySelector("#emails-view").style.display = "none";
+     document.querySelector("#compose-view").style.display = "none";  
+     document.querySelector("#single-email-view").style.display = "block";
 
-  function compose_email(emailId) {
-    // SIRAJ FOR YOU TO COMPLETE    
-    fetch(`/emails/${emailId}`)
-    // Put response into json form
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-    })
-  }
+     // display email
+     const view = document.querySelector("#single-email-view");
+
+     view.innerHTML =
+                      `
+                      From: ${email.sender} <br> 
+                      Subject: ${email.subject} <br> 
+                      TimeStamp: ${email.timestamp} <br>
+                      Read: ${email.read} <br><br>
+                      `
+  })
+}
